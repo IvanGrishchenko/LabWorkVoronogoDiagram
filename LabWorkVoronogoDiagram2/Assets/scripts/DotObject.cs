@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DotObject : MonoBehaviour {
+public class DotObject  {
     bool wasCreated;
     public Dot dot;
+    public DotObject(Dot dot)
+    {
+        this.dot = dot;
+        CreateDotInWorld();
+    }
     public GameObject dotGameObject;
     public void CreateDotInWorld()
     {
@@ -19,7 +24,7 @@ public class DotObject : MonoBehaviour {
                 GameObject.Destroy(dotGameObject);
             }
         }
-        dotGameObject = GameObject.Instantiate(ReferenceManager.ins.cube, dot.toVector3(),
+        dotGameObject = GameObject.Instantiate(ReferenceManager.ins.dot, dot.toVector3(),
             Quaternion.identity, ReferenceManager.ins.parent);
     }
 	

@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Dot  {
-    
+    public Dot(float x , float z)
+    {
+        this.x = x;
+        this.z = z;
+    }
     public float x;
     public float z;
     public float deltaX(Dot dot)
