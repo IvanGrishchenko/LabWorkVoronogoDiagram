@@ -3,31 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Line : Pair {
-    
+    public Line(Dot dot1, Dot dot2):base(dot1,dot2)
+    {
+        CreateLineInWorld();
+    }
     public Color color;
     bool isDrawn;
-    GameObject line;
-    public void DrawLine()
+    public GameObject lineGameObject;
+    public void CreateLineInWorld()
     {
         Quaternion q = Quaternion.LookRotation(toVector3());
         if (isDrawn)
         {
-            if(line == null)
+            if(lineGameObject == null)
             {
                 Debug.LogError("object was deleted by someone else");
             }
             else
             {
-                GameObject.Destroy(line);
+                GameObject.Destroy(lineGameObject);
             }
         }
         isDrawn = true;
-        line = GameObject.Instantiate(ReferenceManager.ins.cube,GetMiddlePos(),q, ReferenceManager.ins.parent);
-        line.transform.localScale = new Vector3(1,1,toVector3().magnitude);
+        lineGameObject = GameObject.Instantiate(ReferenceManager.ins.cube,GetMiddlePos(),q, ReferenceManager.ins.parent);
+        lineGameObject.transform.localScale = new Vector3(1,1,toVector3().magnitude);
 
     }
-    
+    public void DeleteLineInWorld()
+    {
+        GameObject.Destroy(lineGameObject);
+        isDrawn = false;
+    }
 
-    
+
+
+
 
 }

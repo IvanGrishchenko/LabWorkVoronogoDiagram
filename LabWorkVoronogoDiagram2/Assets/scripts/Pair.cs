@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Pair  {
+    public Pair(Dot dot1,Dot dot2)
+    {
+        this.dot1 = dot1;
+        this.dot2= dot2;
+    }
 
     public Dot dot1;
     public Dot dot2;
