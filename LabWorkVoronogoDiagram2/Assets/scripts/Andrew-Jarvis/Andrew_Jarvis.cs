@@ -23,21 +23,14 @@ public class Andrew_Jarvis : MonoBehaviour {
     {
         DotObject[] dotObjectsArray = logicManager.dotObjectsArray;
         leftMost = dotObjectsArray[0];
-        rightMost = dotObjectsArray[0];
-
-
-        foreach (DotObject dotGO in dotObjectsArray)
-        {
-            if (dotGO.dot.x < leftMost.dot.x)
-                leftMost = dotGO;
-            else if (dotGO.dot.x > rightMost.dot.x)
-                rightMost = dotGO;
-        }
+        rightMost = dotObjectsArray[dotObjectsArray.Length - 1];
     }
     void CreateLineBetweenMostDots()
     {
         DotObject leftMost,  rightMost;
-        FindLeftAndRightMostDots(out leftMost,out  rightMost);
+        DotObject[] dotObjectsArray = logicManager.dotObjectsArray;
+        System.Array.Sort(dotObjectsArray);
+        FindLeftAndRightMostDots(out  leftMost, out  rightMost);
         lines.Add(CreateLine(leftMost,rightMost));
         
     }

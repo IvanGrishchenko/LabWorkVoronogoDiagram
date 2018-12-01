@@ -1,8 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine;using System;
 
-public class DotObject  {
+public class DotObject  : IComparable{
+    public int CompareTo(object o)
+    {
+        if(this.dot==null)
+            throw new Exception("cannot compare two objects this.dot==null");
+        DotObject dot = o as DotObject;
+        if (dot != null)
+            return this.dot.CompareTo(dot.dot);
+        else
+            throw new Exception("cannot compare two objects   dot != null");
+    }
     bool wasCreated;
     public Dot dot;
     public DotObject(Dot dot)
@@ -27,5 +37,6 @@ public class DotObject  {
         dotGameObject = GameObject.Instantiate(ReferenceManager.ins.dot, dot.toVector3(),
             Quaternion.identity, ReferenceManager.ins.parent);
     }
+    
 	
 }

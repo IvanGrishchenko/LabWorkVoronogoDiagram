@@ -1,8 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Dot  {
+using System;
+public class Dot : IComparable{
+    public int CompareTo(object o)
+    {
+        Dot dot = o as Dot;
+        if (dot != null)
+            return this.x.CompareTo(dot.x);
+        else
+            throw new Exception("cannot compare two objects");
+    }
     public Dot(float x , float z)
     {
         this.x = x;
