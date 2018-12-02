@@ -36,6 +36,7 @@ public class DotObject  : IComparable{
         }
         dotGameObject = GameObject.Instantiate(ReferenceManager.ins.dot, dot.toVector3(),
             Quaternion.identity, ReferenceManager.ins.parent);
+        wasCreated = true;
     }
     
 	

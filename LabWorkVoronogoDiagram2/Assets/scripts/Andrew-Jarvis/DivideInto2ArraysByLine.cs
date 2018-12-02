@@ -40,23 +40,26 @@ public static class DivideInto2ArraysByLine {
     {
         line = null;
 
-
-
-        if (startDot == other)
+        if (dot2 == other || startDot == other)
+            return false;
+        
+        if(startDot == null)
         {
+            Debug.Log("startDot == null");
             return false;
         }
-        
+        if (dot2 == null)
+        {
+            Debug.Log("dot2 == null");
+            return false;
+        }
         if (startDot.z == dot2.z && startDot.CompareTo(dot2)==0)
             return false;
         
         line = new Line(startDot.Copy(), dot2.Copy());
-       
-            
-        int abs = CompareByLine(line, other);
-        if (abs == 0 && (dot2.x != other.x || dot2.z != other.z))
+        int abs = CompareByLine(line, other.Copy());
+        if (abs == 0)
         {
-            line.DeleteLineInWorld(wait);
             line = null;
             return false;
         }
@@ -97,7 +100,7 @@ public static class DivideInto2ArraysByLine {
         else
         {
             startDot = dot2.Copy();
-            Debug.Log(line.dot1);
+
         }
         
         return res;
