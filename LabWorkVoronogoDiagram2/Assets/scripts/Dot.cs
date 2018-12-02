@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 public class Dot : IComparable{
-    public Dot Copy()
-    {
-        return new Dot(x,z);
-    }
     public int CompareTo(object o)
     {
         Dot dot = o as Dot;
@@ -42,6 +38,7 @@ public class Dot : IComparable{
     {
         return new Vector3(x, 0, z);
     }
+<<<<<<< HEAD
     public override string ToString()
     {
         return this.x + " " + this.z;
@@ -50,4 +47,8 @@ public class Dot : IComparable{
     {
         return !(dot2.x != this.x || dot2.z != this.z);
     }
+=======
+
+
+>>>>>>> parent of 001ed33... Готов метод Эндрю-Джарвиса
 }

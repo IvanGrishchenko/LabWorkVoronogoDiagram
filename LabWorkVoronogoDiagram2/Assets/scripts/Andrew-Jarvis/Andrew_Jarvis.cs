@@ -7,39 +7,11 @@ public class Andrew_Jarvis : MonoBehaviour {
     public float lineScale;
     LogicManager logicManager;
     List<Line> lines = new List<Line>();
-    List<DotObject> list1 = new List<DotObject>();
-    List<DotObject> list2 = new List<DotObject>();
-    private void Start()
-    {
-        StartCoroutine(IStart());
-    }
-    int j = 0;
-    IEnumerator IStart () {
-        float wait = 0.2f;
+	void Start () {
         logicManager = LogicManager.ins;
         logicManager.CreateArray();
-        DotObject[] dotObjectsArray = logicManager.dotObjectsArray;
-        CreateLineBetweenMostDots();
-        DivideInto2ArraysByLine.Divide(lines[0], dotObjectsArray,out list1,out list2);
-        list1.SetColor(Color.yellow);
-        list2.SetColor(Color.cyan);
         
-        Line line = null;
-
-        Dot startDot = lines[0].dot1.Copy() ;
-        Dot other = lines[0].dot2;
-        bool success = true;
-        int c = 0;
-        int jcopy;
-        
-        List<Dot> dotsCopy = new List<Dot>();
-        dotsCopy.Add(dotObjectsArray[0].dot.Copy());
-        list1.Add(dotObjectsArray[dotObjectsArray.Length - 1]);
-        foreach (DotObject dob in list1)
-        {
-            dotsCopy.Add(dob.dot.Copy());
-        }
-        
+<<<<<<< HEAD
         list1.Add(dotObjectsArray[0]);
         while (success )
         {
@@ -151,6 +123,9 @@ public class Andrew_Jarvis : MonoBehaviour {
 
         }
         Debug.LogError("endddddddddddddd");
+=======
+        CreateLineBetweenMostDots();
+>>>>>>> parent of 001ed33... Готов метод Эндрю-Джарвиса
 
     }
 	
@@ -170,7 +145,7 @@ public class Andrew_Jarvis : MonoBehaviour {
         DotObject[] dotObjectsArray = logicManager.dotObjectsArray;
         System.Array.Sort(dotObjectsArray);
         FindLeftAndRightMostDots(out  leftMost, out  rightMost);
-         lines.Add(CreateLine(leftMost,rightMost));
+        lines.Add(CreateLine(leftMost,rightMost));
         
     }
     Line CreateLine(DotObject dot1, DotObject dot2)
