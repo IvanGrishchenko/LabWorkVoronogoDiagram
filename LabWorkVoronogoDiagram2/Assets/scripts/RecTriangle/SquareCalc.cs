@@ -24,8 +24,8 @@ public static class SquareCalc {
         }
         else
         {
-            TempSide1.DeleteLineInWorld();
-            TempSide2.DeleteLineInWorld();
+            TempSide1.DeleteLineInWorld(wait);
+            TempSide2.DeleteLineInWorld(wait);
         }
         
           

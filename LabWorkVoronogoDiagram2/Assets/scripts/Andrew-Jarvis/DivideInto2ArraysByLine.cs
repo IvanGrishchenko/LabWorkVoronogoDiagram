@@ -24,6 +24,26 @@ public static class DivideInto2ArraysByLine {
             }
         }
     }
+
+    public static void DivideByDotAndLine(Line line, Dot otherdot, TriangleBuild.MirrorPosition type, List<Dot> dotlist, out List<Dot> outdots)
+    {
+        outdots = new List<Dot>();
+        int resOfComparison;
+        int otherValueinLine = CompareByLine(line, otherdot);
+        if (otherValueinLine == 0)
+            Debug.LogError("Point is on the foundation");
+        if (type == TriangleBuild.MirrorPosition.Opposite)
+            otherValueinLine *= -1;
+        foreach (Dot dot in dotlist)
+        {
+            if (CompareByLine(line, dot) * otherValueinLine > 0)
+            {
+                outdots.Add(dot.Copy());
+
+            }
+        }
+    }
+
     public static int CompareByLine(Line line, Dot dot)
     {
         float x1 = line.dot1.x; float y1 = line.dot1.z;

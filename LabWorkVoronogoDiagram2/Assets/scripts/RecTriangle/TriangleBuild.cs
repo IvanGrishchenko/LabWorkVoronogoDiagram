@@ -7,6 +7,8 @@ public class TriangleBuild : MonoBehaviour
     public Color lineColor;
     public float lineScale;
 
+    bool isRunning = false;
+
     LogicManager logicManager;
     List<Line> lines = new List<Line>();
 
@@ -17,8 +19,10 @@ public class TriangleBuild : MonoBehaviour
 
     public enum MirrorPosition { Same, Opposite }
 
-    public void Triagle(Line Foundation,Dot other, MirrorPosition type, List<DotObject> list, List<Dot> TriangleVertexes)
+    public IEnumerator Triagle(Line Foundation,Dot other, MirrorPosition type, List<Dot> list, List<Dot> TriangleVertexes)
     {
+        float waitTime = 0.2f;
+        WaitForSeconds wait = new WaitForSeconds(waitTime);
         int otherValueinLine = DivideInto2ArraysByLine.CompareByLine(Foundation, other);
         if (otherValueinLine == 0)
             Debug.LogError("Point is on the foundation");
@@ -27,16 +31,59 @@ public class TriangleBuild : MonoBehaviour
         Line Side1 = null;
         Line Side2 = null;
         float MaxArea = -1f;
-        foreach(DotObject dotGO in list)
+        foreach(Dot dot in list)
         {
-            if( DivideInto2ArraysByLine.CompareByLine(Foundation, dotGO.dot)*otherValueinLine > 0 )
-                SquareCalc.calculatedArea(Foundation, dotGO.dot, ref MaxArea, 0f, ref Side1, ref Side2);
+            if (DivideInto2ArraysByLine.CompareByLine(Foundation, dot) * otherValueinLine > 0 )
+            {
+                if (SquareCalc.calculatedArea(Foundation, dot, ref MaxArea, waitTime * 0.75f, ref Side1, ref Side2) == MaxArea) ;
+                yield return wait;
+            }
         }
+        List<Dot> subset1, subset2;
+        if (Side1 != null)
+        {
+            TriangleVertexes.Add(Side1.dot2.Copy());
+            DivideInto2ArraysByLine.DivideByDotAndLine(Side1, Foundation.dot2.Copy(), MirrorPosition.Opposite, list, out subset1);
+            if (subset1.Count > 0)
+            {
+                StartCoroutine(Triagle(Side1, Foundation.dot2.Copy(), MirrorPosition.Opposite, list, TriangleVertexes));
+            }
+        }
+        if (Side2 != null)
+        {
+            
+            DivideInto2ArraysByLine.DivideByDotAndLine(Side2, Foundation.dot1.Copy(), MirrorPosition.Opposite, list, out subset2);
+            if (subset2.Count > 0)
+            {
+                StartCoroutine(Triagle(Side2, Foundation.dot1.Copy(), MirrorPosition.Opposite, list, TriangleVertexes));
+            }
+        }
+        isRunning = false;
+    }
+
+
+    List<Dot> ReturnDotList(List<DotObject> dotObjectsList)
+    {
+        List<Dot> dotlist = new List<Dot>();
+        foreach (DotObject dotGO in dotObjectsList)
+        {
+            dotlist.Add(dotGO.dot.Copy());
+        }
+        return dotlist;
+    }
+    
+    IEnumerator WaitingtoProceed()
+    {
+        while (isRunning)
+            yield return null;
+
+        List<Dot> dotlist1 = ReturnDotList(list1);
+        StartCoroutine(Triagle(lines[0], list2[0].dot, MirrorPosition.Opposite, dotlist1, TrianglesVertexes1));
     }
 
     void IStart()
     {
-        float wait = 0.1f;
+        
         logicManager = LogicManager.ins;
         logicManager.CreateArray();
         DotObject[] dotObjectsArray = logicManager.dotObjectsArray;
@@ -45,7 +92,11 @@ public class TriangleBuild : MonoBehaviour
         list1.SetColor(Color.yellow);
         list2.SetColor(Color.cyan);
 
-        Triagle(lines[0], list1[0].dot, MirrorPosition.Opposite, list2, TrianglesVertexes1);
+        
+        List<Dot> dotlist2 = ReturnDotList(list2);
+        StartCoroutine(Triagle(lines[0], list1[0].dot, MirrorPosition.Opposite, dotlist2, TrianglesVertexes2));
+        isRunning = true;
+        StartCoroutine(WaitingtoProceed());
 
     }
 

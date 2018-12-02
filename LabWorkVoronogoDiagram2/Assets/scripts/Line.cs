@@ -7,6 +7,7 @@ public class Line : Pair {
     {
         CreateLineInWorld();
     }
+    float Width = 0.3f;
     public Color color;
     bool isDrawn;
     public GameObject lineGameObject;
@@ -27,7 +28,7 @@ public class Line : Pair {
         }
         isDrawn = true;
         lineGameObject = GameObject.Instantiate(ReferenceManager.ins.cube,GetMiddlePos(),q, ReferenceManager.ins.parent);
-        lineGameObject.transform.localScale = new Vector3(1,1,toVector3().magnitude);
+        lineGameObject.transform.localScale = new Vector3(Width, Width, toVector3().magnitude);
 
     }
     public void DeleteLineInWorld(float wait = 0)
