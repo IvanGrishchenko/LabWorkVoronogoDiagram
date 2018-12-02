@@ -11,6 +11,13 @@ public class Line : Pair {
     public Color color;
     bool isDrawn;
     public GameObject lineGameObject;
+
+    public Line(Dot dot1, Dot dot2, Color color) :  this(dot1, dot2)
+    {
+        lineGameObject.GetComponent<Renderer>().material.color = color;
+    }
+
+
     public void CreateLineInWorld()
     {
         
