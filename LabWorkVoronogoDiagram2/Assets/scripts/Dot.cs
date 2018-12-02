@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 public class Dot : IComparable{
+    public Dot Copy()
+    {
+        return new Dot(x,z);
+    }
     public int CompareTo(object o)
     {
         Dot dot = o as Dot;
@@ -38,6 +42,9 @@ public class Dot : IComparable{
     {
         return new Vector3(x, 0, z);
     }
-
+    public override string ToString()
+    {
+        return this.x + " " + this.z;
+    }
 
 }

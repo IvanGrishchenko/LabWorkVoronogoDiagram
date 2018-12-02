@@ -7,5 +7,12 @@ public static class MyUtilities  {
     {
         return new Vector3(thisV.x * multV.x, thisV.y * multV.y, thisV.z * multV.z);
     }
+    public static void SetColor(this List<DotObject> list,Color color)
+    {
+        foreach(DotObject dotO in list)
+        {
+            dotO.dotGameObject.GetComponent<Renderer>().material.color = color;
+        }
+    }
 	
 }

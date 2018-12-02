@@ -12,6 +12,7 @@ public class Line : Pair {
     public GameObject lineGameObject;
     public void CreateLineInWorld()
     {
+        
         Quaternion q = Quaternion.LookRotation(toVector3());
         if (isDrawn)
         {
@@ -29,9 +30,9 @@ public class Line : Pair {
         lineGameObject.transform.localScale = new Vector3(1,1,toVector3().magnitude);
 
     }
-    public void DeleteLineInWorld()
+    public void DeleteLineInWorld(float wait = 0)
     {
-        GameObject.Destroy(lineGameObject);
+        GameObject.Destroy(lineGameObject,wait );
         isDrawn = false;
     }
 

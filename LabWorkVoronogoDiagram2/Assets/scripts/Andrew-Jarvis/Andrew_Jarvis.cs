@@ -7,11 +7,160 @@ public class Andrew_Jarvis : MonoBehaviour {
     public float lineScale;
     LogicManager logicManager;
     List<Line> lines = new List<Line>();
-	void Start () {
+    List<DotObject> list1 = new List<DotObject>();
+    List<DotObject> list2 = new List<DotObject>();
+    private void Start()
+    {
+        StartCoroutine(IStart());
+    }
+    int j = 0;
+    IEnumerator IStart () {
+        float wait = 0.2f;
         logicManager = LogicManager.ins;
         logicManager.CreateArray();
-        
+        DotObject[] dotObjectsArray = logicManager.dotObjectsArray;
         CreateLineBetweenMostDots();
+        DivideInto2ArraysByLine.Divide(lines[0], dotObjectsArray,out list1,out list2);
+        list1.SetColor(Color.yellow);
+        list2.SetColor(Color.cyan);
+        
+        Line line = null;
+
+        Dot startDot = lines[0].dot1.Copy() ;
+        Dot other = lines[0].dot2;
+        bool success = true;
+        int c = 0;
+        int jcopy;
+        
+        List<Dot> dotsCopy = new List<Dot>();
+        dotsCopy.Add(dotObjectsArray[0].dot.Copy());
+        list1.Add(dotObjectsArray[dotObjectsArray.Length - 1]);
+        foreach (DotObject dob in list1)
+        {
+            dotsCopy.Add(dob.dot.Copy());
+        }
+        
+        list1.Add(dotObjectsArray[0]);
+        while (success )
+        {
+
+            int i = 0;
+            for(;i < dotsCopy.Count; i++)
+            {
+                if (dotsCopy[i].x >= startDot.x)
+                    break;
+            }
+            success = false;
+            
+            Dot startDotCopy = startDot.Copy();
+            while (dotsCopy.Count > 0 && i < dotsCopy.Count && !DivideInto2ArraysByLine.TryDivide(ref startDot,other ,dotsCopy[i], list1, out line, wait))
+            {
+                yield return new WaitForSeconds(wait);
+                i++;
+            }
+               
+            
+            if (startDot != startDotCopy && line !=null)
+            {
+                yield return new WaitForSeconds(0.2f);
+               
+                if (startDot == dotObjectsArray[dotObjectsArray.Length - 1].dot)
+                {
+                    success = false;
+                    Debug.LogError("finished");
+                    break;
+                }
+
+
+                jcopy = j;
+                    dotsCopy.RemoveAt(j);
+                if (i < j)
+                    j = i;
+                else
+                    j = i - 1;
+
+
+
+                success = true;
+            }
+            
+           
+        }
+
+
+
+
+
+
+
+
+       
+       
+     
+     
+       
+      
+
+        line = null;
+
+         startDot = lines[0].dot1.Copy();
+         other = lines[0].dot2;
+         success = true;
+
+        j = 0;
+
+         dotsCopy = new List<Dot>();
+        dotsCopy.Add(dotObjectsArray[0].dot.Copy());
+        list2.Add(dotObjectsArray[dotObjectsArray.Length - 1]);
+        foreach (DotObject dob in list2)
+        {
+            dotsCopy.Add(dob.dot.Copy());
+        }
+
+        list2.Add(dotObjectsArray[0]);
+        while (success)
+        {
+
+
+            int i = 0;
+            for (; i < dotsCopy.Count; i++)
+            {
+                if (dotsCopy[i].x >= startDot.x)
+                    break;
+            }
+            success = false;
+
+            Dot startDotCopy = startDot.Copy();
+            while (dotsCopy.Count > 0 && i < dotsCopy.Count && !DivideInto2ArraysByLine.TryDivide(ref startDot, other, dotsCopy[i], list2, out line,wait))
+                i++;
+
+            if (startDot != startDotCopy && line != null)
+            {
+                yield return new WaitForSeconds(0.2f);
+
+                if (startDot == dotObjectsArray[dotObjectsArray.Length - 1].dot)
+                {
+                    success = false;
+                    Debug.LogError("finished");
+                    break;
+                }
+
+
+                jcopy = j;
+                dotsCopy.RemoveAt(j);
+                if (i < j)
+                    j = i;
+                else
+                    j = i - 1;
+
+
+
+                success = true;
+            }
+
+
+        }
+        Debug.LogError("endddddddddddddd");
 
     }
 	
@@ -31,7 +180,7 @@ public class Andrew_Jarvis : MonoBehaviour {
         DotObject[] dotObjectsArray = logicManager.dotObjectsArray;
         System.Array.Sort(dotObjectsArray);
         FindLeftAndRightMostDots(out  leftMost, out  rightMost);
-        lines.Add(CreateLine(leftMost,rightMost));
+         lines.Add(CreateLine(leftMost,rightMost));
         
     }
     Line CreateLine(DotObject dot1, DotObject dot2)
