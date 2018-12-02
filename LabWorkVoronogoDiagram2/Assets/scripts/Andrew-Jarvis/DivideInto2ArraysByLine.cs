@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class DivideInto2ArraysByLine {
 
+
     public static void Divide(Line line, DotObject[] dots, out List<DotObject> list1, out List<DotObject> list2)
     {
         list1 = new List<DotObject>(); list2 = new List<DotObject>();
@@ -23,7 +24,7 @@ public static class DivideInto2ArraysByLine {
             }
         }
     }
-    static int CompareByLine(Line line, Dot dot)
+    public static int CompareByLine(Line line, Dot dot)
     {
         float x1 = line.dot1.x; float y1 = line.dot1.z;
         float x2 = line.dot2.x; float y2 = line.dot2.z;
