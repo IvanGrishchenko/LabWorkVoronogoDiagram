@@ -16,6 +16,14 @@ public class Line : Pair {
     {
         lineGameObject.GetComponent<Renderer>().material.color = color;
     }
+    public Line(Dot dot1, Dot dot2, Color color,float Scalefactor) : base(dot1, dot2)
+    {
+        
+        Width *= Scalefactor;
+        CreateLineInWorld();
+        lineGameObject.GetComponent<Renderer>().material.color = color;
+        Width /= Scalefactor;
+    }
 
 
     public void CreateLineInWorld()

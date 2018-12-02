@@ -24,7 +24,7 @@ public class TriangleBuild : MonoBehaviour
     public IEnumerator Triagle(Line Foundation,Dot other, MirrorPosition type, List<Dot> list, List<Dot> TriangleVertexes)
     {
         StackCount++;
-        float waitTime = 0.2f;
+        float waitTime = 0.02f;
         WaitForSeconds wait = new WaitForSeconds(waitTime);
         int otherValueinLine = DivideInto2ArraysByLine.CompareByLine(Foundation, other);
         if (otherValueinLine == 0)
@@ -66,12 +66,12 @@ public class TriangleBuild : MonoBehaviour
             isRunning = false;
     }
 
-    void BuildLinesByDotList(List<Dot> dotlist, out List<Line> OuterLines)
+    void BuildLinesByDotArray(Dot[] dotlist, out List<Line> OuterLines)
     {
         OuterLines = new List<Line>();
-        for(int i=0; i < dotlist.Count - 1; ++i)
+        for(int i=0; i < dotlist.Length - 1; ++i)
         {
-            OuterLines.Add(new Line(dotlist[i].Copy(), dotlist[i + 1].Copy(), Color.green));
+            OuterLines.Add(new Line(dotlist[i].Copy(), dotlist[i + 1].Copy(), Color.green,1.1f));
         }
     }
 
@@ -89,15 +89,33 @@ public class TriangleBuild : MonoBehaviour
     {
         while (isRunning)
             yield return null;
-        isRunning = true;
+        
         List<Dot> dotlist1 = ReturnDotList(list1);
-        StartCoroutine(Triagle(lines[0], list2[0].dot, MirrorPosition.Opposite, dotlist1, TrianglesVertexes1));
-        //while (isRunning)
-        //    yield return null;
-        //List<Line> List1;
-        //List<Line> List2;
-        // BuildLinesByDotList(TrianglesVertexes1, out List1);
-        // BuildLinesByDotList(TrianglesVertexes2, out List2);
+        if (list2.Count > 0)
+        {
+            StartCoroutine(Triagle(lines[0], list2[0].dot, MirrorPosition.Opposite, dotlist1, TrianglesVertexes1));
+            isRunning = true;
+        }
+        else if (list1.Count > 0)
+        {
+            StartCoroutine(Triagle(lines[0], list1[0].dot, MirrorPosition.Same, dotlist1, TrianglesVertexes1));
+            isRunning = true;
+        }
+        while (isRunning)
+            yield return null;
+        List<Line> List1;
+        List<Line> List2;
+        TrianglesVertexes1.Add(lines[0].dot1.Copy());
+        TrianglesVertexes1.Add(lines[0].dot2.Copy());
+        TrianglesVertexes2.Add(lines[0].dot1.Copy());
+        TrianglesVertexes2.Add(lines[0].dot2.Copy());
+        Dot[] array1 = TrianglesVertexes1.ToArray();
+        Dot[] array2 = TrianglesVertexes2.ToArray();
+        System.Array.Sort(array1);
+        System.Array.Sort(array2);
+        
+        BuildLinesByDotArray(array1, out List1);
+        BuildLinesByDotArray(array2, out List2);
 
     }
 
@@ -114,8 +132,17 @@ public class TriangleBuild : MonoBehaviour
 
         
         List<Dot> dotlist2 = ReturnDotList(list2);
-        StartCoroutine(Triagle(lines[0], list1[0].dot, MirrorPosition.Opposite, dotlist2, TrianglesVertexes2));
-        isRunning = true;
+        if (list1.Count > 0)
+        {
+            StartCoroutine(Triagle(lines[0], list1[0].dot, MirrorPosition.Opposite, dotlist2, TrianglesVertexes2));
+            isRunning = true;
+        }
+        else if (list2.Count > 0)
+        {
+            StartCoroutine(Triagle(lines[0], list2[0].dot, MirrorPosition.Same, dotlist2, TrianglesVertexes2));
+            isRunning = true;
+        }
+       
         StartCoroutine(WaitingtoProceed());
 
     }
