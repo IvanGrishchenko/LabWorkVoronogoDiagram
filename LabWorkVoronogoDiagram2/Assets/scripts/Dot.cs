@@ -46,5 +46,8 @@ public class Dot : IComparable{
     {
         return this.x + " " + this.z;
     }
-
+   public bool compare(Dot dot2)
+    {
+        return !(dot2.x != this.x || dot2.z != this.z);
+    }
 }

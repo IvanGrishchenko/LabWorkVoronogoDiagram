@@ -26,8 +26,14 @@ public class LogicManager : MonoBehaviour {
     }
     void CreateArray(int length)
     {
+        //dotObjectsArray = new DotObject[5];
+        //dotObjectsArray[2] = new DotObject(new Dot(-10, 10));
+        //dotObjectsArray[1] = new DotObject(new Dot(-10, -10));
+        //dotObjectsArray[0] = new DotObject(new Dot(10, 10));
+        //dotObjectsArray[3] = new DotObject(new Dot(10, -10));
+        //dotObjectsArray[4] = new DotObject(new Dot(0, 0));
         dotObjectsArray = new DotObject[length];
-        for(int i = 0; i < length; ++i)
+        for (int i = 0; i < length; ++i)
         {
             dotObjectsArray[i] = new DotObject(NextRandomDot());
         }

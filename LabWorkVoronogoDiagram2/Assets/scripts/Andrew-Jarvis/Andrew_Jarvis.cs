@@ -60,16 +60,11 @@ public class Andrew_Jarvis : MonoBehaviour {
             }
                
             
-            if (startDot != startDotCopy && line !=null)
+            if (startDot.compare(startDotCopy) && line !=null)
             {
                 yield return new WaitForSeconds(0.2f);
                
-                if (startDot == dotObjectsArray[dotObjectsArray.Length - 1].dot)
-                {
-                    success = false;
-                    Debug.LogError("finished");
-                    break;
-                }
+               
 
 
                 jcopy = j;
@@ -134,16 +129,11 @@ public class Andrew_Jarvis : MonoBehaviour {
             while (dotsCopy.Count > 0 && i < dotsCopy.Count && !DivideInto2ArraysByLine.TryDivide(ref startDot, other, dotsCopy[i], list2, out line,wait))
                 i++;
 
-            if (startDot != startDotCopy && line != null)
+            if (startDot.compare(startDotCopy) && line != null)
             {
                 yield return new WaitForSeconds(0.2f);
 
-                if (startDot == dotObjectsArray[dotObjectsArray.Length - 1].dot)
-                {
-                    success = false;
-                    Debug.LogError("finished");
-                    break;
-                }
+                
 
 
                 jcopy = j;
